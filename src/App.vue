@@ -19,7 +19,8 @@
         </v-btn>
     </v-app-bar>
     <v-main>
-      <Board :xSize="4" v-bind:ySize="4"/>
+      <Board :xSize="getSizeX" v-bind:ySize="getSizeY"/>
+      <div>{{getData}}</div>
     </v-main>
   </v-app>
 </template>
@@ -34,13 +35,23 @@ export default {
     Board,
   },
 
-  data: () => ({
-  }),
-
   methods: {
     toggleTheme() {
         this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
+  },
+
+  computed: {
+    getSizeX() {
+        return this.$store.getters.getSizeX;
+    },
+    getSizeY() {
+        return this.$store.getters.getSizeY;
+    },
+    getData() {
+        return this.$store.getters.getData;
+    },
+
   }
 
 };

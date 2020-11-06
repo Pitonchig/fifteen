@@ -1,6 +1,12 @@
 <template>
-    <v-card outlined elevation=6 class="grid-cell">
-        {{y}}-{{x}}
+    <v-card
+        outlined
+        elevation=6
+        align="center"
+        justify="center"
+        v-on:click="onClick"
+        class="grid-cell text-center align-center">
+            {{getValue}}
     </v-card>
 </template>
 
@@ -13,16 +19,45 @@
       y: Number,
     },
 
-    data: () => ({
-    }),
+    data: function() {
+        console.log('[Title::data] x=' + this.x + ' y=' + this.y);
+        return {
+          xId: this.x,
+          yId: this.y
+        }
+    },
+
+    computed: {
+        getValue() {
+            console.log('[Title::getValue] x=' + this.xId + ' y=' + this.yId);
+            var props = {
+                x: this.xId,
+                y: this.yId,
+            }
+            var value = this.$store.getters['getValue'](props);
+            return (value>0 && value<16)?value: '';
+        },
+    },
+
+    methods: {
+        onClick: function() {
+            console.log('[Tile::onClicked] x=' + this.xId + ' y=' + this.yId);
+            var props = {
+                x: this.xId,
+                y: this.yId,
+            }
+            this.$store.commit('move', props);
+        }
+
+    }
   }
 </script>
 
 <style scoped>
 
 .grid-cell {
-    width: 2rem;
-    height: 2rem;
+    width: 70px;
+    height: 70px;
 }
 
 </style>
