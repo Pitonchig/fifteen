@@ -17,11 +17,17 @@ export default new Vuex.Store({
       x: 3,
       y: 3,
     },
-    moves: 0
+    moves: 0,
+    isFinished: false
   },
   mutations: {
     move(state, payload) {
-      if( payload === undefined || payload.x === undefined || payload.y === undefined) {
+      if(state.isFinished) {
+        console.log('[STORE::move] game is finished!');
+        return;
+      }
+
+      if(payload === undefined || payload.x === undefined || payload.y === undefined) {
         console.log('[STORE::move] payload is undefined!');
         return;
       }
@@ -29,7 +35,7 @@ export default new Vuex.Store({
       var x = payload.x - 1;
       var y = payload.y - 1;
 
-      if( x==state.position.x && y==state.position.y) {
+      if(x==state.position.x && y==state.position.y) {
         console.log('[STORE::move] move == position!');
         return;
       }
@@ -49,6 +55,21 @@ export default new Vuex.Store({
       state.position.x = x;
       state.position.y = y;
       state.moves++;
+
+      var flag = true;
+      for (let y = 0; y < state.ySize ; y++){
+        for (let x = 0; x < state.xSize ; x++){
+          if(state.data[y][x] != y * state.xSize + x + 1 &&
+            !( x == state.xSize-1 && y == state.ySize-1 && state.data[y][x] == 0)) {
+            flag = false;
+          }
+        }
+      }
+
+      if(flag) {
+        console.log('[STORE::move] isFinished = true!');
+        state.isFinished = true;
+      }
     },
 
     restart(state) {
@@ -74,6 +95,7 @@ export default new Vuex.Store({
       }
       state.data = field;
       state.moves = 0;
+      state.isFinished = false;
     }
   },
 
@@ -82,6 +104,7 @@ export default new Vuex.Store({
   },
 
   getters: {
+    isFinished: state => state.isFinished,
     getData: state => state.data,
     getMoves: state => state.moves,
     getSizeX: state => state.xSize,

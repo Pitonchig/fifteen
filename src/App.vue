@@ -23,7 +23,12 @@
         </v-btn>
     </v-app-bar>
     <v-main>
-      <Board :xSize="getSizeX" v-bind:ySize="getSizeY"/>
+      <v-container>
+        <v-row>
+           <Board :xSize="getSizeX" v-bind:ySize="getSizeY"/>
+        </v-row>
+        <v-row v-if="isFinished" class="justify-center title font-italic">You Win!</v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -61,6 +66,9 @@ export default {
     },
     getMoves() {
         return this.$store.getters.getMoves;
+    },
+    isFinished() {
+        return this.$store.getters.isFinished;
     },
   }
 
