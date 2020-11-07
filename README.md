@@ -25,4 +25,4 @@ npm run lint
 ### Instruction
 
 Move tiles in grid to order them from 1 to 15.
-See [app](http://vue-fifteen.herokuapp.com) on heroku.
+See [demo on heroku.com](http://vue-fifteen.herokuapp.com).
