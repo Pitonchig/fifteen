@@ -41,14 +41,16 @@ export function checkForWin(data, xSize, ySize) {
 export function calcMathSolutionSummForElement(data, xSize, ySize, posX, posY) {
     var result = 0;
     var element = data[posY][posX];
+     console.log("[Utils::calcMathSolutionSummForElement] element=" + element);
 
     if (element == 0) {
         return 0;
     }
 
     for(let y = posY; y < ySize; y++) {
-        for(let x = posX; x < xSize; x++) {
+        for(let x = (y==posY?posX:0); x < xSize; x++) {
             if(data[y][x] != 0 && data[y][x] < element) {
+                console.log('pair: ' + element + '-' + data[y][x])
                 result++;
             }
         }
@@ -57,6 +59,7 @@ export function calcMathSolutionSummForElement(data, xSize, ySize, posX, posY) {
 }
 
 export function hasMathSolution(data, xSize, ySize) {
+    console.log("[Utils::hasMathSolution] xSize=" + xSize + ' ySize=' + ySize);
     var result = 0;
 
     for(let y = 0; y < ySize; y++) {
@@ -66,6 +69,8 @@ export function hasMathSolution(data, xSize, ySize) {
     }
     var zero = findZeroPosition(data, xSize, ySize);
     result = result + zero.y + 1;
+    console.log('zero row: ' + (zero.y + 1));
+    console.log('*summ: ' + result);
     return (result % 2 == 0);
 }
 
