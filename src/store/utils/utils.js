@@ -42,9 +42,13 @@ export function calcMathSolutionSummForElement(data, xSize, ySize, posX, posY) {
     var result = 0;
     var element = data[posY][posX];
 
+    if (element == 0) {
+        return 0;
+    }
+
     for(let y = posY; y < ySize; y++) {
         for(let x = posX; x < xSize; x++) {
-            if(data[y][x] < element) {
+            if(data[y][x] != 0 && data[y][x] < element) {
                 result++;
             }
         }
