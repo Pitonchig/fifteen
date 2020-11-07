@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import * as utils from './utils/utils.js'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -35,17 +37,8 @@ export default new Vuex.Store({
       var x = payload.x - 1;
       var y = payload.y - 1;
 
-      if(x==state.position.x && y==state.position.y) {
-        console.log('[STORE::move] move == position!');
-        return;
-      }
-
-      if(!(y == state.position.y && x == state.position.x+1) &&
-         !(y == state.position.y && x == state.position.x-1) &&
-         !(x == state.position.x && y == state.position.y+1) &&
-         !(x == state.position.x && y == state.position.y-1)) {
-
-        console.log('[STORE::move] not bordering tile!');
+      if(!utils.validateMove(state.position.x, state.position.y, x, y)) {
+        console.log('[STORE::move] move not valid! x=' + x + ' y=' + y);
         return;
       }
 
@@ -56,17 +49,7 @@ export default new Vuex.Store({
       state.position.y = y;
       state.moves++;
 
-      var flag = true;
-      for (let y = 0; y < state.ySize ; y++){
-        for (let x = 0; x < state.xSize ; x++){
-          if(state.data[y][x] != y * state.xSize + x + 1 &&
-            !( x == state.xSize-1 && y == state.ySize-1 && state.data[y][x] == 0)) {
-            flag = false;
-          }
-        }
-      }
-
-      if(flag) {
+      if(utils.checkForWin(state.data, state.xSize, state.ySize)) {
         console.log('[STORE::move] isFinished = true!');
         state.isFinished = true;
       }
@@ -75,25 +58,12 @@ export default new Vuex.Store({
     restart(state) {
       console.log('[STORE::restart]');
 
-      var field = new Array(state.ySize);
-      var data = new Array(state.xSize * state.ySize);
-      for (let i = 0; i < state.xSize * state.ySize; i++) {
-        data[i] = i;
-      }
-      data = data.sort( () => Math.random() - 0.5 );
+      do {
+        console.log('[STORE::restart] generate random field and check math solution!');
+        state.data = utils.generateField(state.xSize, state.ySize, state.position);
+      } while( !utils.hasMathSolution(state.data, state.xSize, state.ySize) );
 
-      for (let y = 0; y < state.ySize ; y++){
-        let row = new Array(state.xSize);
-        for (let x = 0; x < state.xSize ; x++){
-          var element = data.pop();
-          if(element == 0) {
-            state.position = {x: x, y: y};
-          }
-          row[x] = element;
-        }
-        field[y] = row;
-      }
-      state.data = field;
+      state.position = utils.findZeroPosition(state.data, state.xSize, state.ySize);
       state.moves = 0;
       state.isFinished = false;
     }
