@@ -8,19 +8,22 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text rounded>
+        <div class="d-flex align-center">
+          <div class="title font-weight-light font-italic">Moves: {{getMoves}}</div>
+        </div>
+
+        <v-btn @click="onRestartGame" text rounded>
           <span class="mr-2">Restart</span>
           <v-icon>mdi-autorenew</v-icon>
         </v-btn>
 
-        <v-btn @click="toggleTheme" text rounded>
+        <v-btn @click="onToggleTheme" text rounded>
           Toggle theme
           <v-icon ref="brightness">mdi-brightness-2</v-icon>
         </v-btn>
     </v-app-bar>
     <v-main>
       <Board :xSize="getSizeX" v-bind:ySize="getSizeY"/>
-      <div>{{getData}}</div>
     </v-main>
   </v-app>
 </template>
@@ -36,8 +39,13 @@ export default {
   },
 
   methods: {
-    toggleTheme() {
+    onToggleTheme() {
+        console.log("[App::onToggleTheme]");
         this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+    onRestartGame() {
+        console.log("[App::onRestartGame]");
+        this.$store.commit('restart');
     },
   },
 
@@ -51,7 +59,9 @@ export default {
     getData() {
         return this.$store.getters.getData;
     },
-
+    getMoves() {
+        return this.$store.getters.getMoves;
+    },
   }
 
 };

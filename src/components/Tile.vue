@@ -20,7 +20,6 @@
     },
 
     data: function() {
-        console.log('[Title::data] x=' + this.x + ' y=' + this.y);
         return {
           xId: this.x,
           yId: this.y
@@ -29,7 +28,6 @@
 
     computed: {
         getValue() {
-            console.log('[Title::getValue] x=' + this.xId + ' y=' + this.yId);
             var props = {
                 x: this.xId,
                 y: this.yId,
@@ -47,8 +45,7 @@
                 y: this.yId,
             }
             this.$store.commit('move', props);
-        }
-
+        },
     }
   }
 </script>
