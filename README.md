@@ -1,4 +1,6 @@
-# fifteen
+# The fifteen puzzle game.
+
+It's a trainee project for learning the basics of web technologies such as JS, Vue and Vuex.Store.
 
 ## Project setup
 ```
@@ -20,5 +22,7 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Instruction
+
+Move tiles in grid to order them from 1 to 15.
+See [app](http://vue-fifteen.herokuapp.com) on heroku.
