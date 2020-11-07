@@ -61,7 +61,7 @@ export function hasMathSolution(data, xSize, ySize) {
 
     for(let y = 0; y < ySize; y++) {
         for(let x = 0; x < xSize; x++) {
-            result =  calcMathSolutionSummForElement(data, xSize, ySize, x, y);
+            result =  result + calcMathSolutionSummForElement(data, xSize, ySize, x, y);
         }
     }
     var zero = findZeroPosition(data, xSize, ySize);
